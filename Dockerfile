@@ -39,12 +39,8 @@ RUN apt-get update -qq && \
         plotly \
         mpi4py \
         matplotlib \
-        runipy
-
-
-# script for xvfb-run.  all docker commands will effectively run under this via the entrypoint
-RUN printf "#\041/bin/sh \n rm -f /tmp/.X99-lock && xvfb-run -s '-screen 0 1600x1200x16' \$@" >> /usr/local/bin/xvfbrun.sh && \
-    chmod +x /usr/local/bin/xvfbrun.sh
+        runipy \
+        xvfbwrapper
 
 # setup environment
 ENV PYTHONPATH $PYTHONPATH:$HOME/underworld2
@@ -72,6 +68,3 @@ RUN git clone https://github.com/underworldcode/underworld2 && \
     rm -fr StgDomain             && \
     rm -fr PICellerator          && \
     rm -fr Solvers
-
-# note we also use xvfb which is required for viz
-ENTRYPOINT ["xvfbrun.sh"]
